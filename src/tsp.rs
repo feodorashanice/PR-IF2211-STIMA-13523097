@@ -1,5 +1,6 @@
 use std::usize;
 use std::fs;
+use std::io::{self, Write};
 
 fn tsp(graph: &Vec<Vec<i32>>, n: usize) -> (i32, Vec<usize>) {
     // Membuat tabel DP: dp[mask][curr] menyimpan biaya minimum dan jalur untuk subset kota (mask) yang berakhir di curr
@@ -56,8 +57,21 @@ fn tsp(graph: &Vec<Vec<i32>>, n: usize) -> (i32, Vec<usize>) {
 }
 
 fn main() {
+    // Prompt pengguna untuk memasukkan nama file
+    print!("Enter test file name: ");
+    io::stdout().flush().unwrap(); // Pastikan prompt ditampilkan sebelum membaca input
+
+    // Baca input dari pengguna
+    let mut file_path = String::new();
+    io::stdin()
+        .read_line(&mut file_path)
+        .expect("Gagal membaca input");
+
+    // Hapus whitespace dan newline dari input
+    let file_path = file_path.trim();
+
     // Baca isi file
-    let contents = match fs::read_to_string("../test/test1.txt") {
+    let contents = match fs::read_to_string(file_path) {
         Ok(contents) => contents,
         Err(e) => {
             println!("Gagal membaca file: {}", e);
