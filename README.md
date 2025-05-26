@@ -1,4 +1,4 @@
-# 📌 TSP Solver (Rust)
+# TSP Solver (Rust)
 
 Proyek ini merupakan implementasi penyelesaian Travelling Salesman Problem (TSP) menggunakan bahasa pemrograman Rust.
 
