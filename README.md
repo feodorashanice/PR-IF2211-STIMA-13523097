@@ -24,7 +24,7 @@ rustc src/tsp.rs -o tsp
 
 3. Jalankan program:
 ```bash
-./tsp test/test1.txt
+./tsp
 ```
 
 ### Di Windows (CMD atau PowerShell)
@@ -37,7 +37,14 @@ rustc src\tsp.rs -o tsp.exe
 
 3. Jalankan program:
 ```powershell
-tsp.exe test\test1.txt
+tsp.exe
+```
+
+Setelah itu, program akan meminta input berupa path file.
+Contoh:
+
+```
+Enter test file name: test/test1.txt
 ```
 
 ## Struktur Folder
