@@ -1,4 +1,5 @@
 use std::usize;
+use std::fs;
 
 fn tsp(graph: &Vec<Vec<i32>>, n: usize) -> (i32, Vec<usize>) {
     // Membuat tabel DP: dp[mask][curr] menyimpan biaya minimum dan jalur untuk subset kota (mask) yang berakhir di curr
@@ -55,15 +56,49 @@ fn tsp(graph: &Vec<Vec<i32>>, n: usize) -> (i32, Vec<usize>) {
 }
 
 fn main() {
-    // Contoh graf: matriks ketetanggaan dengan bobot
-    let graph = vec![ // Test case sementara
-        vec![0, 10, 15, 20],
-        vec![10, 0, 35, 25],
-        vec![15, 35, 0, 30],
-        vec![20, 25, 30, 0],
-    ];
+    // Baca isi file
+    let contents = match fs::read_to_string("../test/test1.txt") {
+        Ok(contents) => contents,
+        Err(e) => {
+            println!("Gagal membaca file: {}", e);
+            return;
+        }
+    };
+
+    let mut lines = contents.lines();
     
-    let n = graph.len();
+    // Baca jumlah kota (n)
+    let n: usize = match lines.next().and_then(|line| line.trim().parse().ok()) {
+        Some(num) => num,
+        None => {
+            println!("Gagal membaca jumlah kota");
+            return;
+        }
+    };
+
+    // Baca matriks graf
+    let mut graph: Vec<Vec<i32>> = Vec::with_capacity(n);
+    for (i, line) in lines.enumerate() {
+        if i >= n {
+            break;
+        }
+        let row: Vec<i32> = line
+            .split_whitespace()
+            .filter_map(|num| num.parse().ok())
+            .collect();
+        if row.len() != n {
+            println!("Baris {} tidak memiliki cukup kolom, diharapkan {} kolom", i + 1, n);
+            return;
+        }
+        graph.push(row);
+    }
+
+    // Pastikan jumlah baris sesuai dengan n
+    if graph.len() != n {
+        println!("Jumlah baris tidak sesuai, diharapkan {} baris", n);
+        return;
+    }
+
     let (cost, path) = tsp(&graph, n);
     
     if cost == i32::MAX {
